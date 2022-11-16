@@ -1,3 +1,53 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+.logo {
+  height: 50px;
+}
+
+h2 {
+  color: rgba(255, 6, 6, 0.774);
+  font-family: Arial;
+}
+
+.amarillo {
+  float: right;
+}
+
+.carousel {
+  height: auto;
+  width: 100%;
+  border: none;
+  background: white;
+  overflow-x: scroll;
+}
+
+.characters {
+  height: auto;
+  display: flex;
+}
+
+.dropdown-item {
+  font-weight: bold;
+  color: rgb(50, 50, 221);
+}
+
+table {
+  width: 100%;
+  font-size: 20px;
+  margin-top: 100px;
+}
+
+th,
+td {
+  width: 14%;
+  text-align: center;
+}
+
+.ddt {
+  margin-left: 775px;
+}
+
+.signup {
+  margin-left: 85px;
+}
