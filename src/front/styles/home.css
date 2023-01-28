@@ -5,3 +5,35 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+
+body {
+  background-image: url(https://www.redisenatuespacio.com/wp-content/uploads/2015/09/escenograf%C3%ADas.jpg);
+  /* Para dejar la imagen de fondo centrada, vertical y
+
+horizontalmente */
+
+  background-position: center center;
+
+  /* Para que la imagen de fondo no se repita */
+
+  background-repeat: no-repeat;
+
+  /* La imagen se fija en la ventana de visualización para que la altura de la imagen no supere a la del contenido */
+
+  background-attachment: fixed;
+
+  /* La imagen de fondo se reescala automáticamente con el cambio del ancho de ventana del navegador */
+
+  background-size: cover;
+}
+
+.titulo {
+  color: white;
+}
+
+.login {
+  position: absolute;
+  top: 60%;
+  left: 48%;
+  margin: -25px 0 0 -25p;
+}

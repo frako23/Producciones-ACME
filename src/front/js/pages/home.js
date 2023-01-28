@@ -1,85 +1,88 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
-import "../../styles/home.css";
-import { CharacterCard } from "../component/characterCard";
-import { PlanetCard } from "../component/planetCard";
-import { VehicleCard } from "../component/vehicleCard";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import "../../styles/home.css";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import logo from "../../img/logo.jpg";
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
+  const [show, setShow] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const token = sessionStorage.getItem("token");
+  const handleClick = () => {
+    actions.login(email, password);
+  };
 
   useEffect(() => {
-    if (store.characters.length > 0) {
-      actions.getCharacters();
-    }
-  }, [store.characters]);
-  useEffect(() => {
-    if (store.planetCharacters.length > 0) {
-      actions.getPlanetCharacters();
-    }
-  }, [store.planetCharacters]);
-  useEffect(() => {
-    if (store.vehicleCharacters.length > 0) {
-      actions.getVehicleCharacters();
-    }
-  }, [store.vehicleCharacters]);
+    if (token && token != "") navigate("/demo");
+  }, [token]);
+
   return (
-    <>
-      {!store.token ? (
-        <div className="card">
-          <img
-            src="https://i.blogs.es/1da08b/1366_2000-9-/1366_2000.jpeg"
-            className="card-img"
-          />
-          <div className="card-img-overlay align-items-center justify-content-center d-flex">
-            <Link to="/signup">
-              <button className="btn btn-primary btn-lg signup" type="button">
-                <strong>Sign up!</strong>
-              </button>
-            </Link>
-          </div>
-        </div>
+    <div className="text-center mt-5">
+      <h1 className="titulo pt-5">Producciones ACME</h1>
+      <img src={logo} className="pt-5 rounded-3" />
+      {token && token != "" && token != undefined ? (
+        <h1 className="titulo pt-5">Ya estas loggeado</h1>
       ) : (
-        <div className="container">
-          <h2 className="text-danger mt-5">Characters</h2>
-          <div className="carousel">
-            <div className="characters">
-              {store.characters.map((character, index) => {
-                return <CharacterCard character={character} key={index} />;
-              })}
-            </div>
+        <>
+          <div>
+            <Button
+              variant="danger"
+              size="lg"
+              className="mt-5"
+              onClick={handleShow}
+            >
+              Login
+            </Button>
           </div>
-
-          <h2 className="text-danger mt-5">Planets</h2>
-          <div className="carousel">
-            <div className="characters">
-              {store.planetCharacters.map((planetCharacter, indexPlanet) => {
-                return (
-                  <PlanetCard
-                    planetCharacter={planetCharacter}
-                    key={indexPlanet}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          <h2 className="text-danger mt-5">Vehicles</h2>
-          <div className="carousel">
-            <div className="characters">
-              {store.vehicleCharacters.map((vehicleCharacter, indexVehicle) => {
-                return (
-                  <VehicleCard
-                    vehicleCharacter={vehicleCharacter}
-                    key={indexVehicle}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        </div>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Login</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <InputGroup className="mb-3">
+                <InputGroup.Text id="basic-addon1">Email</InputGroup.Text>
+                <Form.Control
+                  placeholder="Email"
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </InputGroup>
+              <InputGroup className="mb-3">
+                <InputGroup.Text id="basic-addon1">Password</InputGroup.Text>
+                <Form.Control
+                  placeholder="Password"
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </InputGroup>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="danger" onClick={handleClose}>
+                Cerrar
+              </Button>
+              <Link to="/demo">
+                <Button variant="success" onClick={handleClick}>
+                  Ingresar
+                </Button>
+              </Link>
+            </Modal.Footer>
+          </Modal>
+        </>
       )}
-    </>
+    </div>
   );
 };

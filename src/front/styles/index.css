@@ -1,53 +1,33 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
-.logo {
-  height: 50px;
+.footer {
+  color: white;
+  position: absolute;
 }
 
-h2 {
-  color: rgba(255, 6, 6, 0.774);
-  font-family: Arial;
+.tabla {
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
-.amarillo {
-  float: right;
+a:link {
+  text-decoration: none;
 }
 
-.carousel {
-  height: auto;
-  width: 100%;
-  border: none;
-  background: white;
-  overflow-x: scroll;
+.imagen {
+  width: 7%;
 }
 
-.characters {
-  height: auto;
-  display: flex;
+.jumbotron {
+  position: absolute;
+  top: 24%;
+  left: 14%;
 }
 
-.dropdown-item {
-  font-weight: bold;
-  color: rgb(50, 50, 221);
-}
-
-table {
-  width: 100%;
-  font-size: 20px;
-  margin-top: 100px;
-}
-
-th,
-td {
-  width: 14%;
-  text-align: center;
-}
-
-.ddt {
-  margin-left: 775px;
-}
-
-.signup {
-  margin-left: 85px;
+.acceso {
+  position: absolute;
+  top: 40%;
+  left: 25%;
+  background-color: white;
 }

@@ -1,8 +1,8 @@
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
-      token: null,
       message: null,
+      token: "",
       demo: [
         {
           title: "FIRST",
@@ -15,16 +15,100 @@ const getState = ({ getStore, getActions, setStore }) => {
           initial: "white",
         },
       ],
-      characteristics: [],
-      characters: [],
-      planetCharacteristics: [],
-      planetCharacters: [],
-      vehicleCharacteristics: [],
-      vehicleCharacters: [],
-      favorites: [],
+      listaPedidos: [
+        {
+          idPedido: "0001",
+          nombre: "Trompo de Inception",
+          img: "https://res.cloudinary.com/dzryoj9vr/image/upload/v1674765463/1_wa8aba.webp",
+          fechaYhora: "23/01/2022 11:12 a.m.",
+          comentario: "Se necesita con caracter de urgencia",
+          estado: "ENTREGADO",
+        },
+        {
+          idPedido: "0002",
+          nombre: "Set de sables de luz de Star Wars",
+          img: "https://res.cloudinary.com/dzryoj9vr/image/upload/v1674765463/2_eaolwo.webp",
+          fechaYhora: "19/04/2022 09:21 a.m.",
+          comentario: "Se necesitan los 9 lasers",
+          estado: "ENTREGADO",
+        },
+        {
+          idPedido: "0003",
+          nombre: "Zapatillas rojas de EL Mago de Oz",
+          img: "https://res.cloudinary.com/dzryoj9vr/image/upload/v1674765463/3_efipdc.webp",
+          fechaYhora: "16/05/2022 04:59 p.m.",
+          comentario: "Deben ser talla 35",
+          estado: "ENTREGADO",
+        },
+        {
+          idPedido: "0004",
+          nombre: "Guante de Freddy Krueger",
+          img: "https://res.cloudinary.com/dzryoj9vr/image/upload/v1674765463/4_mpazcr.webp",
+          fechaYhora: "27/07/2022 01:53 p.m.",
+          comentario: "Cada dedo debe tener un cuchillo",
+          estado: "ENTREGADO",
+        },
+        {
+          idPedido: "0005",
+          nombre: "Máscara de Hockey de Jason",
+          img: "https://res.cloudinary.com/dzryoj9vr/image/upload/v1674765463/5_wzubez.webp",
+          fechaYhora: "13/09/2022 1:13 p.m.",
+          comentario: "Debe llegar antes de Halloween",
+          estado: "ENTREGADO",
+        },
+        {
+          idPedido: "0006",
+          nombre: "Cuchillo de Rambo",
+          img: "https://res.cloudinary.com/dzryoj9vr/image/upload/v1674765463/6_vesluq.webp",
+          fechaYhora: "16/01/2023 10:50 a.m.",
+          comentario:
+            "Debe tener filo normal de un lado y de serrucho del otro",
+          estado: "EN CURSO",
+        },
+        {
+          idPedido: "0007",
+          nombre: "Corazón del Océano de Titanic",
+          img: "https://res.cloudinary.com/dzryoj9vr/image/upload/v1674765463/7_v7v1nv.webp",
+          fechaYhora: "17/01/2023 03:35 p.m.",
+          comentario: "La piedra debe tener un diamante azul",
+          estado: "EN CURSO",
+        },
+        {
+          idPedido: "0008",
+          nombre: "	Magnum 44 de Harry el Sucio",
+          img: "https://res.cloudinary.com/dzryoj9vr/image/upload/v1674765463/8_cfgsqa.webp",
+          fechaYhora: "18/01/2023 04:02 p.m.",
+          comentario: "Debe ser de cañon largo",
+          estado: "EN CURSO",
+        },
+        {
+          idPedido: "0009",
+          nombre: "Bozal de Hannibal Lecter",
+          img: "https://res.cloudinary.com/dzryoj9vr/image/upload/v1674765463/9_fxwnag.webp",
+          fechaYhora: "21/01/2023 10:54 a.m.",
+          comentario: "Talla M",
+          estado: "CONFIRMADO",
+        },
+        {
+          idPedido: "0010",
+          nombre: "Proton Pack de los Cazafantasmas",
+          img: "https://res.cloudinary.com/dzryoj9vr/image/upload/v1674765463/10_iagzqj.webp",
+          fechaYhora: "23/01/2023 07:12 p.m.",
+          comentario: "Debe tener las medidas ya indicadas",
+          estado: "RECIBIDO",
+        },
+      ],
     },
     actions: {
       // Use getActions to call a function within a fuction
+      exampleFunction: () => {
+        getActions().changeColor(0, "green");
+      },
+      logout: () => {
+        const token = sessionStorage.removeItem("token");
+        console.log("Se han borrado todos los tokens");
+        setStore({ token: null });
+      },
       login: async (email, password) => {
         const opts = {
           method: "POST",
@@ -36,121 +120,35 @@ const getState = ({ getStore, getActions, setStore }) => {
             password: password,
           }),
         };
-
         try {
           const resp = await fetch(
-            "https://3001-4geeksacade-reactflaskh-k7w75gdxxcs.ws-us75.gitpod.io/api/token",
+            "https://3001-frako23-authentications-yamci40wd1d.ws-us84.gitpod.io/api/token",
             opts
           );
           if (resp.status !== 200) {
-            const mensaje = await resp.json();
-            alert(mensaje.msg);
+            alert("Hubo un error en el fetch");
             return false;
           }
-
           const data = await resp.json();
-          console.log("Esto vino del backend", data);
+          console.log("esto vino del backeend", data);
           sessionStorage.setItem("token", data.access_token);
           setStore({ token: data.access_token });
-          return true;
         } catch (error) {
-          console.error("Hubo un error al hacer login in");
+          console.error("hubo un error en login");
         }
       },
-      syncTokenFromSessionStore: () => {
-        const token = sessionStorage.getItem("token");
-        console.log(
-          "La aplicacion acaba de cargar, sincronizando el token de session storage"
-        );
-        if (token && token != "" && token != undefined)
-          setStore({ token: token });
-      },
-      signup: async (name, email, password) => {
-        const store = getStore();
-        const options = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            full_name: name,
-            email: email,
-            password: password,
-          }),
-        };
-
-        try {
-          const response = await fetch(
-            "https://3001-4geeksacade-reactflaskh-k7w75gdxxcs.ws-us75.gitpod.io/api/users",
-            options
-          );
-
-          if (!response.ok) {
-            let danger = await response.json();
-            alert(danger);
-            return false;
-          }
-
-          const data = await response.json();
-          console.log("This came from the backend", data);
-          return true;
-        } catch (error) {
-          console.error("There has been an error login in");
-        }
-      },
-      logout: () => {
-        const token = sessionStorage.removeItem("token");
-        console.log("Se han borrado todos los tokens");
-        setStore({ token: null });
-      },
-      getCharacters: () => {
-        const apiURL = `https://3001-4geeksacade-reactflaskh-k7w75gdxxcs.ws-us75.gitpod.io/api/people`;
-        fetch(apiURL)
-          .then((Response) => {
-            if (Response.ok) {
-              return Response.json();
-            }
-            throw new Error("Ha ocurrido un error");
-          })
-          .then((body) => setStore({ characters: body }))
-          .catch((error) => console.log(error));
-      },
-      getPlanetCharacters: () => {
-        const apiURL = `https://3001-4geeksacade-reactflaskh-k7w75gdxxcs.ws-us75.gitpod.io/api/planets`;
-        fetch(apiURL)
-          .then((Response) => {
-            if (Response.ok) {
-              return Response.json();
-            }
-            throw new Error("Ha ocurrido un error");
-          })
-          .then((body) => setStore({ planetCharacters: body }))
-          .catch((error) => console.log(error));
-      },
-      getVehicleCharacters: () => {
-        const apiURL = `https://3001-4geeksacade-reactflaskh-k7w75gdxxcs.ws-us75.gitpod.io/api/vehicles`;
-        fetch(apiURL)
-          .then((Response) => {
-            if (Response.ok) {
-              return Response.json();
-            }
-            throw new Error("Ha ocurrido un error");
-          })
-          .then((body) => setStore({ vehicleCharacters: body }))
-          .catch((error) => console.log(error));
-      },
-      getMessage: async () => {
-        try {
-          // fetching data from the backend
-          const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
-          const data = await resp.json();
-          setStore({ message: data.message });
-          // don't forget to return something, that is how the async resolves
-          return data;
-        } catch (error) {
-          console.log("Error loading message from backend", error);
-        }
-      },
+      // getMessage: async () => {
+      //   try {
+      //     // fetching data from the backend
+      //     const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
+      //     const data = await resp.json();
+      //     setStore({ message: data.message });
+      //     // don't forget to return something, that is how the async resolves
+      //     return data;
+      //   } catch (error) {
+      //     console.log("Error loading message from backend", error);
+      //   }
+      // },
       changeColor: (index, color) => {
         //get the store
         const store = getStore();
@@ -164,29 +162,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         //reset the global store
         setStore({ demo: demo });
-      },
-
-      toggleFavorite: (item) => {
-        const store = getStore();
-        const actions = getActions();
-        if (actions.isFavorite(item.name)) {
-          const newFavorites = store.favorites.filter((fav) => {
-            return fav.name !== item.name;
-          });
-          setStore({
-            favorites: newFavorites,
-          });
-        } else {
-          setStore({
-            favorites: [...store.favorites, item],
-          });
-        }
-      },
-      isFavorite: (name) => {
-        const store = getStore();
-        return store.favorites.find((favorite) => {
-          return favorite.name == name;
-        });
       },
     },
   };
